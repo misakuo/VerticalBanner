@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -20,6 +21,7 @@ public class VerticalBannerView extends RecyclerView {
     private int itemHeight;
     private int mode = MODE_SCROLL_OUT;
     private boolean isStarted = false;
+    private boolean isOnScroll = false;
     private OnScrollListener scrollListener;
 
     public static final int MODE_SCROLL_OUT = 1;
@@ -49,6 +51,7 @@ public class VerticalBannerView extends RecyclerView {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == SCROLL_STATE_IDLE && mode == MODE_SCROLL_OUT) {
                     layoutManager.lock();
+                    isOnScroll = false;
                     adapter.next();
                     scrollToPosition(0);
                 }
@@ -58,6 +61,7 @@ public class VerticalBannerView extends RecyclerView {
     }
 
     private void initAction() {
+        isOnScroll = false;
         if (mode == MODE_FADE_OUT) {
             action = new Runnable() {
                 @Override
@@ -78,11 +82,21 @@ public class VerticalBannerView extends RecyclerView {
                         layoutManager.unlock();
                         removeOnScrollListener(scrollListener);
                         addOnScrollListener(scrollListener);
+                        isOnScroll = true;
                         smoothScrollBy(0, itemHeight);
                         postDelayed(action, delay);
                     }
                 }
             };
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (isOnScroll) {
+            return true;
+        } else {
+            return super.dispatchTouchEvent(ev);
         }
     }
 
@@ -116,17 +130,19 @@ public class VerticalBannerView extends RecyclerView {
 
     public void setSwitchMode(int mode) {
         this.mode = mode;
-        init();
+        initAction();
     }
 
     public void start() {
         isStarted = true;
+        isOnScroll = false;
         removeCallbacks(action);
         postDelayed(action, delay);
     }
 
     public void stop() {
         isStarted = false;
+        isOnScroll = false;
         removeCallbacks(action);
     }
 

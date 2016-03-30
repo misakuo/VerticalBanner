@@ -3,6 +3,6 @@
 
 ## 在Android Studio中使用
 ```
-compile 'com.moxun:vbanner:1.0.0'
+compile 'com.moxun:vbanner:1.0.2'
 ```
 ##等有空了再来接着写Readme......

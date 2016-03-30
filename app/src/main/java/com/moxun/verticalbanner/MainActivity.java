@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -65,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
                 public ItemHolder(View itemView) {
                     super(itemView);
                     tv = (TextView) itemView;
+                    tv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.e("TAG","Clicked.");
+                        }
+                    });
                 }
             }
         };
