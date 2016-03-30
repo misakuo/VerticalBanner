@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         VerticalBannerView banner = (VerticalBannerView) findViewById(R.id.vbanner);
         banner.setVisibleItemCount(3);
-        banner.setAutoScrollDelay(200);
-        banner.setSwitchMode(VerticalBannerView.MODE_FADE_OUT);
+        banner.setAutoScrollDelay(3000);
+        banner.setSwitchMode(VerticalBannerView.MODE_SCROLL_OUT);
         banner.start();
         VBAdapter<String> adapter = new VBAdapter<String>() {
             List<String> list = new ArrayList<>();

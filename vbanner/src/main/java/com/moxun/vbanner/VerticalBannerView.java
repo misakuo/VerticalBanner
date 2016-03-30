@@ -54,7 +54,6 @@ public class VerticalBannerView extends RecyclerView {
                 }
             }
         };
-        addOnScrollListener(scrollListener);
         initAction();
     }
 
@@ -65,6 +64,7 @@ public class VerticalBannerView extends RecyclerView {
                 public void run() {
                     if (adapter != null && isStarted) {
                         layoutManager.lock();
+                        removeOnScrollListener(scrollListener);
                         adapter.next();
                         postDelayed(action, delay);
                     }
@@ -76,6 +76,8 @@ public class VerticalBannerView extends RecyclerView {
                 public void run() {
                     if (adapter != null && isStarted) {
                         layoutManager.unlock();
+                        removeOnScrollListener(scrollListener);
+                        addOnScrollListener(scrollListener);
                         smoothScrollBy(0, itemHeight);
                         postDelayed(action, delay);
                     }

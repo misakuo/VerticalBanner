@@ -9,7 +9,9 @@ import java.util.List;
  * Created by moxun on 16/3/29.
  */
 public abstract class VBAdapter<D> extends RecyclerView.Adapter {
-    public abstract @NonNull List<D> getDataSet();
+    public abstract
+    @NonNull
+    List<D> getDataSet();
 
     protected void next() {
         List<D> set = getDataSet();
