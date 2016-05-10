@@ -46,6 +46,7 @@ public class VerticalBannerView extends RecyclerView {
         layoutManager = new SpecifiedLinearLayoutManager(getContext());
         setLayoutManager(layoutManager);
         setOverScrollMode(OVER_SCROLL_NEVER);
+        setNestedScrollingEnabled(false);
         scrollListener = new OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -83,11 +84,22 @@ public class VerticalBannerView extends RecyclerView {
                         removeOnScrollListener(scrollListener);
                         addOnScrollListener(scrollListener);
                         isOnScroll = true;
+                        ensureItemHeight();
                         smoothScrollBy(0, itemHeight);
                         postDelayed(action, delay);
                     }
                 }
             };
+        }
+    }
+
+    private void ensureItemHeight() {
+        if (itemHeight != 0 || getChildCount() == 0) {
+            return;
+        }
+        if (getChildCount() > 0) {
+            View c0 = getChildAt(0);
+            itemHeight = c0.getMeasuredHeight();
         }
     }
 
